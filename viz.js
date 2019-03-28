@@ -5,7 +5,7 @@
  *  This file contains the code for the D3 GeoJson viewer.
  */
 
-var width = 960, height = 500;
+var width = 960, height = 800;
 
 var projection = d3.geoEquirectangular();
 var geoGenerator = d3.geoPath().projection(projection);
