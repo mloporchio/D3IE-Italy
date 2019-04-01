@@ -1,0 +1,33 @@
+/*
+    File:   style.css
+    Author: Matteo Loporchio
+    
+    This is the main CSS stylesheet of the project.
+*/
+
+#wrap {
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+}
+
+#left {
+    float:left;
+    width:70%;
+}
+
+#right {
+    float:right;
+    width:30%;
+}
+
+path {
+    fill: #ccc;
+    stroke: #fff;
+    stroke-width: .5px;
+}
+
+path:hover {
+    fill: red;
+}

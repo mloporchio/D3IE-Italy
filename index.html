@@ -1,8 +1,8 @@
 <!--
-	File:	index.html
+	File:		index.html
 	Author:	Matteo Loporchio
 
-	The main web page of the project.
+	This is the main web page of the project.
 -->
 <!DOCTYPE html>
 <html>
@@ -10,23 +10,20 @@
 		<meta charset="utf-8">
 		<title>Map of italian regions</title>
 		<meta name="description" content="Map of italian regions"/>
-		<!-- N.B.: change D3.js version to v5. -->
-		<script src="http://d3js.org/d3.v4.min.js"></script>
-		<script src="http://d3js.org/d3.geo.projection.v2.min.js"></script>
-		<!--<script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>-->
-		<!--<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>-->
-		<style>
-			path {
-			  fill: #ccc;
-			  stroke: #fff;
-			  stroke-width: .5px;
-			}
-			path:hover {
-			  fill: red;
-			}
-		</style>
+		<script src="https://d3js.org/d3.v4.js"></script>
+		<script src="https://d3js.org/d3-geo.v1.min.js"></script>
+		<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+		<link rel="stylesheet" href="style.css"> 
 	</head>
-	<body>		
-		<script src="viz.js"></script>
+	<body>
+			<div id="wrap"><h1>Map of italian regions</h1></div>
+			<div id="wrap">
+					<div id="left">
+						<script src="viz.js"></script>
+					</div>
+					<div id="right">
+						<h2></h2>	
+					</div>
+			</div>
 	</body>
 </html>
