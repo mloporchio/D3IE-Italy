@@ -36,6 +36,7 @@
     height: 25px;
     border-radius: 50%;
     background: crimson;
+    border-color: crimson;
     cursor: pointer; /* Cursor on hover */
 }
   
@@ -44,10 +45,6 @@
     height: 25px;
     border-radius: 50%;
     background: crimson;
+    border-color: crimson;
     cursor: pointer; /* Cursor on hover */
-}
-
-.slidelabel {
-    font-family: 'Roboto', sans-serif;
-    color: crimson;
 }

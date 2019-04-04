@@ -47,12 +47,12 @@ h2 {
 
 #left {
     float:left;
-    width:70%;
+    width:50%;
     border-color: black;
 }
 
 #right {
     float:right;
-    width:30%;
+    width:50%;
     border-color: black;
 }
