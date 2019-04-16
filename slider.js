@@ -4,18 +4,25 @@
 */
 
 // Minimum and maximum year for the timeline.
-var year_min = 1985, year_max = 2013, year_init = 1999;
-var ctl = document.getElementById("slidectl");
-var label = document.getElementById("slidelabel");
+var year_min = 1985;
+var year_max = 2013;
+var year_init = 1999;
 
 // Initialize the control.
-// min="1" max="100" value="50" 
-ctl.setAttribute("min", year_min);
-ctl.setAttribute("max", year_max);
-ctl.setAttribute("value", year_init);
-label.innerHTML = "Year:" + ctl.value; // Display the default slider value
+var c = document.getElementById("slider_input");
+var l = document.getElementById("slider_label");
+c.setAttribute("min", year_min);
+c.setAttribute("max", year_max);
+c.setAttribute("value", year_init);
+// Display the default value.
+l.innerHTML = c.value;
 
 // Update the current slider value (each time you drag the slider handle)
-ctl.oninput = function() {
-  label.innerHTML = "Year:" + this.value
+c.oninput = function() {
+  l.innerHTML = this.value;
+}
+
+// 
+c.onchange = function() {
+  return;
 }

@@ -1,8 +1,6 @@
 <!--
 	File:	index.html
 	Author:	Matteo Loporchio
-
-	This is the main web page of the project.
 -->
 
 <!DOCTYPE html>
@@ -10,36 +8,37 @@
 	<head>
 		<meta charset="utf-8">
 		<title>D3IE-Italy</title>
-		<meta name="description" content="Map of italian regions"/>
+		<meta name="description" content="An interactive map"/>
+		<!-- Include D3 stuff -->
 		<script src="https://d3js.org/d3.v4.js"></script>
 		<script src="https://d3js.org/d3-geo.v1.min.js"></script>
 		<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-		<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700"
-		rel="stylesheet"> 
+		<!-- Include Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+		<!-- Include CSS stylesheets -->
 		<link href="main.css" rel="stylesheet">
 		<link href="map.css" rel="stylesheet">
 		<link href="slider.css" rel="stylesheet">
+		<link href="barchart.css" rel="stylesheet">
 	</head>
 	<body>
-			<div id="top">
-				<h1>Incomes and expenses in Italy</h1>
-				<h2 id="description">An interactive map</h2>
-				<hr class="dashed">
-				<!-- Slider area -->
-				<div class="slidecontainer">
-					<input type="range" class="slider" id="slidectl">
-					<p id="slidelabel"></p>
+		<div id="top">
+			<div id="title">Incomes and expenses in Italy</div>
+			<hr>
+			<!-- Slider area -->
+			<div id="slider_container">
+				<div id="slider_label"></div>
+				<div id="slider_control">
+					<input type="range" class="slider" id="slider_input">
 				</div>
-				<script src="slider.js"></script>
-				<hr class="full">
 			</div>
-			<div id="wrap">
-					<div id="left">
-						<script src="viz.js"></script>
-					</div>
-					<div id="right">
-						<h2 id="regionlabel"></h2>	
-					</div>
-			</div>
+			<script src="slider.js"></script>
+		</div>
+		<div class="container" id="main">
+			<div class="item" id="left"></div>
+			<div class="item" id="right"></div>
+		</div>
+		<script src="map.js"></script>
+		<script src="graph.js"></script>
 	</body>
 </html>

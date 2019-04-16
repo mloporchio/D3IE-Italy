@@ -5,54 +5,49 @@
     This is the main CSS stylesheet of the project.
 */
 
+/* Whole document */
 body {
-    margin-top: 0px; 
-    margin-bottom: 0px; 
-    margin-left: 0px; 
-    margin-right: 0px;
-    background: rgb(245, 245, 245);
-    font-family: 'Inconsolata', monospace;
+    background-color: #888888;
+    background-image: url("https://www.transparenttextures.com/patterns/kinda-jean.png");
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
-hr.dashed {
-    border-top: 1px dashed rgb(185, 185, 185);
-}
-
-hr.full {
-    border-top: 1px solid rgb(185, 185, 185);
-}
-
-h1 {
-    margin: 0;
-    font-size: 16pt;
-}
-
-h2 {
-    margin: 0;
-    font-size: 12pt;
+hr {
+    height: 12px;
+    border: 0;
+    box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
 }
 
 #top {
+    position: relative;
     width: 100%;
+    height: 15vh;
+    margin: 0 auto;
+    border-radius: 5px;
+    background: #3d3c3c;
+    opacity: .9;
+    color: white;
     text-align: center;
-    background-image: url('pictures/stripes-light/stripes-light.png');
-    background-color: #ccc;
 }
 
-#wrap {
-    width: 100%;
-    background-image: url('pictures/dust_scratches/dust_scratches.png');
-    background-color: #ccc;
+#title {
+    position: relative;
+    top: 5px;
+    bottom: 10px;
+    font-size: 16pt;
 }
 
-#left {
-    float:left;
-    width:50%;
-    border-color: black;
+.container {
+    position: relative;
+    top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
-#right {
-    float:right;
-    width:50%;
-    border-color: black;
+.item {
+    flex: flex-grow;
+    background-color: lightgrey;
+    border-radius: 5px;
+    opacity: .6;
 }

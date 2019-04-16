@@ -1,22 +1,19 @@
 /*
-    File:   viz.js
+    File:   map.js
     Author: Matteo Loporchio
-    
-    This file contains the code for the D3 GeoJson viewer.
 */
 
 var filename = "it_geo.json";
-var scale = 1.0;
-var click_scale = 2.0;
-var centered;
+var width = 500, height = 500;
+var default_title = "Italy";
+var centered = null;
+var parent = d3.select("#left");
 
-// Compute width and height for the viewer.
-var ldiv = d3.select("#left").node();
-var width = ldiv.getBoundingClientRect().width, height = 600;
+// Set the map title.
+parent.append("div").attr("class", "label").text(default_title);
 
 // Create and initialize the SVG area.
-var svg = d3.select("body")
-    .append("svg")
+var svg = parent.append("svg")
     .attr("width", width)
     .attr("height", height);
 svg.append("rect")
@@ -25,15 +22,16 @@ svg.append("rect")
     .attr("height", height)
     .on("click", clicked);
 var container = svg.append("g");
-var projection = d3.geoEquirectangular();
+
+// D3 map projections (used to create the map).
+var projection = d3.geoNaturalEarth1();
 var path = d3.geoPath().projection(projection);
 
 // Load data from file.
 d3.json(filename, function(error, countries) {
     if (error) console.log(error);
     projection.fitExtent([[0, 0], [width, height]], countries);
-    container.append("g")
-        .selectAll("path")
+    container.selectAll("path")
         .data(countries.features)
         .enter()
         .append("path")
@@ -73,10 +71,7 @@ function mouseOut(d) {
 }
 
 // This function is invoked when when the mouse is clicked on a shape.
-function clicked(d, i) {
-    //
-    d3.select("#regionlabel").text(d.properties.NAME_1);
-    if (d3.event.defaultPrevented) return;
+function clicked(d, i) {    
     var x, y, k;
     if (d && centered !== d) {
         var centroid = path.centroid(d);
@@ -87,9 +82,13 @@ function clicked(d, i) {
     } else {
         x = width / 2;
         y = height / 2;
-        k = 1;
+        k = 1; //k_init;
         centered = null;
     }
+    // Set the title.
+    if (centered) d3.select(".label").text(d.properties.NAME_1);
+    else d3.select(".label").text(default_title);
+    // Transform the shapes.
     container.selectAll("path")
         .classed("active", centered && function(d) {return d === centered;});
     container.transition()
@@ -98,6 +97,3 @@ function clicked(d, i) {
         + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
         .style("stroke-width", 1.5 / k + "px");
 }
-
-
-
