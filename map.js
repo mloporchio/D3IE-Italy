@@ -100,16 +100,3 @@ function clicked(d, i) {
         + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
         .style("stroke-width", 1.5 / k + "px");
 }
-
-function colorize_map() {
-  d3.csv("data/color_map_test.csv", function (data) {
-    var min = 500, max = 4000;
-    var color = d3.scaleLinear().domain([min, max]).range(["pink", "red"]);
-    for (var i = 0; i < data.length; i++) {
-      var v = data[i].Total;
-      d3.select("#REG_" + (i+1)).attr('fill', function(d,i) {return color(v);});
-    }
-  });
-}
-
-colorize_map();
