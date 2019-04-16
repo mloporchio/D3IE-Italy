@@ -4,25 +4,15 @@
 */
 
 // Minimum and maximum year for the timeline.
-var year_min = 1985;
-var year_max = 2013;
-var year_init = 1999;
+var year_min = 1997, year_max = 2017;
 
-// Initialize the control.
-var c = document.getElementById("slider_input");
-var l = document.getElementById("slider_label");
-c.setAttribute("min", year_min);
-c.setAttribute("max", year_max);
-c.setAttribute("value", year_init);
-// Display the default value.
-l.innerHTML = c.value;
+// Initialize the range slider.
+var c = d3.select("#slider_input")
+  .attr("min", year_min)
+  .attr("max", year_max)
+  .on("input", function () {
+    d3.select("#slider_label").html(this.value);
+  });
 
-// Update the current slider value (each time you drag the slider handle)
-c.oninput = function() {
-  l.innerHTML = this.value;
-}
-
-// 
-c.onchange = function() {
-  return;
-}
+// Initialize the label.
+d3.select("#slider_label").html(year_min);

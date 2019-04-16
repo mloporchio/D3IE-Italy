@@ -4,7 +4,7 @@
 */
 
 var filename = "it_geo.json";
-var width = 500, height = 500;
+var width = 600, height = 500;
 var default_title = "Italy";
 var centered = null;
 var parent = d3.select("#left");
@@ -45,23 +45,23 @@ d3.json(filename, function(error, countries) {
 
 // Tooltip setup.
 var tooltip = d3.select("body").append("div")
-    .attr("class", "tooltip")				
+    .attr("class", "tooltip")
     .style("opacity", 0)
     .style("visibility", "hidden");
 
 // This function is invoked when the mouse enters a shape.
 function mouseOver(d) {
     tooltip.style("visibility", "visible");
-    tooltip.transition()		
-        .duration(200)		
+    tooltip.transition()
+        .duration(200)
         .style("opacity", .9);
     // Show the region name.
-    tooltip.html(d.properties.NAME_1);	
+    tooltip.html(d.properties.NAME_1);
 }
 
 // This function is invoked when the mouse moves on a shape.
 function mouseMove(d) {
-    tooltip.style("top", 
+    tooltip.style("top",
     (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
 }
 
@@ -71,7 +71,7 @@ function mouseOut(d) {
 }
 
 // This function is invoked when when the mouse is clicked on a shape.
-function clicked(d, i) {    
+function clicked(d, i) {
     var x, y, k;
     if (d && centered !== d) {
         var centroid = path.centroid(d);
@@ -93,7 +93,7 @@ function clicked(d, i) {
         .classed("active", centered && function(d) {return d === centered;});
     container.transition()
         .duration(750)
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 
+        .attr("transform", "translate(" + width / 2 + "," + height / 2
         + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
         .style("stroke-width", 1.5 / k + "px");
 }

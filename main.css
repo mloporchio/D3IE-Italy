@@ -1,7 +1,7 @@
 /*
     File:   main.css
     Author: Matteo Loporchio
-    
+
     This is the main CSS stylesheet of the project.
 */
 
@@ -38,16 +38,19 @@ hr {
 }
 
 .container {
+    display: flex;
     position: relative;
     top: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    margin: 0 -5px;
+    /*flex-direction: row;*/
+    /*justify-content: space-around;*/
 }
 
 .item {
-    flex: flex-grow;
+    /*flex: flex-grow;*/
+    margin: 0 5px;
     background-color: lightgrey;
     border-radius: 5px;
     opacity: .6;
+    flex-grow: 1;
 }
