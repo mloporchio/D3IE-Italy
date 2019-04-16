@@ -12,6 +12,12 @@
     margin-bottom: 2%;
 }
 
+.selector {
+  text-align: center;
+  margin-top: 2%;
+  margin-bottom: 4%;
+}
+
 .background {
     fill: none;
     pointer-events: all;

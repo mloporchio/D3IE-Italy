@@ -40,7 +40,7 @@ d3.csv(data_url, function(data) {
   svg.append("text")
       .attr("text-anchor", "end")
       .attr("x", width)
-      .attr("y", height-30 )
+      .attr("y", height-30)
       .text("Time (year)");
   // Add Y axis
   var y = d3.scaleLinear()

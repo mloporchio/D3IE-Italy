@@ -12,6 +12,11 @@ var parent = d3.select("#left");
 // Set the map title.
 parent.append("div").attr("class", "label").text(default_title);
 
+// Add the mode selector.
+var selector_container = parent.append("div").attr("class", "selector");
+var selector = selector_container.append("select").attr("name", "mode");
+selector.append("option").attr("value", "incomes").html("Average income");
+
 // Create and initialize the SVG area.
 var svg = parent.append("svg")
     .attr("width", width)
