@@ -31,10 +31,13 @@ var path = d3.geoPath().projection(projection);
 d3.json(filename, function(error, countries) {
     if (error) console.log(error);
     projection.fitExtent([[0, 0], [width, height]], countries);
+    console.log(countries.features);
     container.selectAll("path")
         .data(countries.features)
         .enter()
         .append("path")
+        // Append a region ID to each path.
+        .attr("id", function(d) {return "REG_" + d.properties.ID_1;})
         .attr("d", path)
         .on("click", clicked)
         // tooltip-related event handlers
@@ -97,3 +100,16 @@ function clicked(d, i) {
         + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
         .style("stroke-width", 1.5 / k + "px");
 }
+
+function colorize_map() {
+  d3.csv("data/color_map_test.csv", function (data) {
+    var min = 500, max = 4000;
+    var color = d3.scaleLinear().domain([min, max]).range(["pink", "red"]);
+    for (var i = 0; i < data.length; i++) {
+      var v = data[i].Total;
+      d3.select("#REG_" + (i+1)).attr('fill', function(d,i) {return color(v);});
+    }
+  });
+}
+
+colorize_map();

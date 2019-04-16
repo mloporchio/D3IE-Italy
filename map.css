@@ -1,7 +1,7 @@
 /*
     File:   map.css
     Author: Matteo Loporchio
-    
+
     This file contains the style definition for the interactive SVG map.
 */
 
@@ -22,7 +22,7 @@
 }
 
 path {
-    fill: rgb(214, 214, 214);
+    /*fill: rgb(214, 214, 214);*/
     stroke: black;
     stroke-width: .5px;
 }
@@ -32,12 +32,12 @@ path:hover {
 }
 
 .tooltip {
-    position: absolute;			
+    position: absolute;
     text-align: center;
     vertical-align: middle;
     padding: 2px;
-    background: #ccc;	
-    border: 0px;		
-    border-radius: 4px;		
-    pointer-events: none;		
+    background: #ccc;
+    border: 0px;
+    border-radius: 4px;
+    pointer-events: none;
 }
