@@ -3,28 +3,28 @@
     Author: Matteo Loporchio
 */
 
-var filename = "it_geo.json";
-var width = 600, height = 500;
-var default_title = "Italy";
+const jsonPath = 'data/it_geo.json';
+const mapWidth = 400, mapHeight = 500;
+const mapTitle = 'Italy';
 var centered = null;
-var parent = d3.select("#left");
+
+// Select the div node.
+const left = d3.select('#left');
 
 // Set the map title.
-parent.append("div").attr("class", "label").text(default_title);
-
-// Add the mode selector.
-var selector_container = parent.append("div").attr("class", "selector");
-var selector = selector_container.append("select").attr("name", "mode");
-selector.append("option").attr("value", "incomes").html("Average income");
+left.append("div")
+  .attr('class', 'label')
+  .attr('id', 'mapTitle')
+  .text(mapTitle);
 
 // Create and initialize the SVG area.
-var svg = parent.append("svg")
-    .attr("width", width)
-    .attr("height", height);
+var svg = left.append("svg")
+    .attr("width", mapWidth)
+    .attr("height", mapHeight);
 svg.append("rect")
     .attr("class", "background")
-    .attr("width", width)
-    .attr("height", height)
+    .attr("width", mapWidth)
+    .attr("height", mapHeight)
     .on("click", clicked);
 var container = svg.append("g");
 
@@ -33,49 +33,52 @@ var projection = d3.geoNaturalEarth1();
 var path = d3.geoPath().projection(projection);
 
 // Load data from file.
-d3.json(filename, function(error, countries) {
-    if (error) console.log(error);
-    projection.fitExtent([[0, 0], [width, height]], countries);
-    console.log(countries.features);
-    container.selectAll("path")
-        .data(countries.features)
-        .enter()
-        .append("path")
-        // Append a region ID to each path.
-        .attr("id", function(d) {return "REG_" + d.properties.ID_1;})
-        .attr("d", path)
-        .on("click", clicked)
-        // tooltip-related event handlers
-        .on("mouseover", mouseOver)
-        .on("mousemove", mouseMove)
-        .on("mouseout", mouseOut);
+d3.json(jsonPath, function(error, countries) {
+  if (error) console.log(error);
+  projection.fitExtent([[0, 0], [mapWidth, mapHeight]], countries);
+  container.selectAll("path")
+    .data(countries.features)
+    .enter()
+    .append("path")
+    // Append a region ID and a name to each path.
+    .attr('id', function(d) {return 'reg' + d.properties.ID_1;})
+    .attr('name', function(d) {return d.properties.NAME_1;})
+    .attr('value', function(d) {return 0;})
+    .attr('d', path)
+    .on("click", clicked)
+    // tooltip-related event handlers
+    .on("mouseover", mouseOver)
+    .on("mousemove", mouseMove)
+    .on("mouseout", mouseOut);
 });
 
 // Tooltip setup.
-var tooltip = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0)
-    .style("visibility", "hidden");
+var map_tooltip = d3.select("body")
+  .append("div")
+  .attr("class", "map_tooltip")
+  .style("opacity", 0)
+  .style("visibility", "hidden");
 
 // This function is invoked when the mouse enters a shape.
 function mouseOver(d) {
-    tooltip.style("visibility", "visible");
-    tooltip.transition()
-        .duration(200)
-        .style("opacity", .9);
-    // Show the region name.
-    tooltip.html(d.properties.NAME_1);
+  map_tooltip.style("visibility", "visible");
+  map_tooltip.transition().duration(200).style("opacity", 0.9);
+  // Show the current value.
+  const current_value = d3.select(this).attr('value');
+  map_tooltip.html(current_value + ' €');
+  // Show the region name.
+  //map_tooltip.html(d.properties.NAME_1);
 }
 
 // This function is invoked when the mouse moves on a shape.
 function mouseMove(d) {
-    tooltip.style("top",
-    (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+  var top = event.pageY - 10, left = event.pageX + 10;
+  map_tooltip.style("top", top + "px").style("left", left + "px");
 }
 
 // This function is invoked when the mouse leaves a shape.
 function mouseOut(d) {
-    tooltip.style("visibility", "hidden");
+  map_tooltip.style("visibility", "hidden");
 }
 
 // This function is invoked when when the mouse is clicked on a shape.
@@ -88,20 +91,20 @@ function clicked(d, i) {
         k = 4;
         centered = d;
     } else {
-        x = width / 2;
-        y = height / 2;
-        k = 1; //k_init;
+        x = mapWidth / 2;
+        y = mapHeight / 2;
+        k = 1;
         centered = null;
     }
     // Set the title.
-    if (centered) d3.select(".label").text(d.properties.NAME_1);
-    else d3.select(".label").text(default_title);
+    if (centered) d3.select('#mapTitle').text(d.properties.NAME_1);
+    else d3.select('#mapTitle').text(mapTitle);
     // Transform the shapes.
     container.selectAll("path")
         .classed("active", centered && function(d) {return d === centered;});
     container.transition()
         .duration(750)
-        .attr("transform", "translate(" + width / 2 + "," + height / 2
-        + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+        .attr("transform", "translate(" + mapWidth / 2 + ","
+        + mapHeight / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
         .style("stroke-width", 1.5 / k + "px");
 }

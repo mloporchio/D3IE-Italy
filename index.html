@@ -21,6 +21,8 @@
 		<link href="map.css" rel="stylesheet">
 		<link href="slider.css" rel="stylesheet">
 		<link href="barchart.css" rel="stylesheet">
+		<!-- First script to be loaded -->
+		<script src="general.js"></script>
 	</head>
 	<body>
 		<div id="top">
@@ -33,13 +35,16 @@
 					<input type="range" class="slider" id="slider_input">
 				</div>
 			</div>
-			<script src="slider.js"></script>
 		</div>
 		<div class="container" id="main">
+			<div class="item" id="selector"></div>
 			<div class="item" id="left"></div>
 			<div class="item" id="right"></div>
 		</div>
+		<!-- Load the scripts -->
+		<script src="selector.js"></script>
 		<script src="map.js"></script>
+		<script src="slider.js"></script>
 		<script src="graph.js"></script>
 	</body>
 </html>
