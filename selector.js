@@ -26,11 +26,12 @@ for (var i = 0; i < properties.length; i++) {
             // Get the currently selected year.
             const year = d3.select('#slider_input').node().value;
             // Paint the map.
+            //console.log('filling map with id=' + id + ' and year=' + year);
             fillMap(id, year);
         });
     form.append('label')
         .attr('for', i)
-        .html(properties[i]);
+        .html(properties[i][1]); // Set the label.
     // Add also a line break.
     form.append('br');
     // The last element is the default one.

@@ -38,7 +38,7 @@ hr {
 }
 
 #selector {
-    width: 10%;
+    width: 20%;
 }
 
 #left {
@@ -46,7 +46,7 @@ hr {
 }
 
 #right {
-    width: 60%;
+    width: 50%;
 }
 
 .label {

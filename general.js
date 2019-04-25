@@ -9,7 +9,6 @@ const yearMin = 1997, yearMax = 2017;
 // Set of regions.
 const regions = [
     'ABRUZZO',
-    'PUGLIA',
     'BASILICATA',
     'CALABRIA',
     'CAMPANIA',
@@ -21,6 +20,7 @@ const regions = [
     'MARCHE',
     'MOLISE',
     'PIEMONTE',
+    'PUGLIA',
     'SARDEGNA',
     'SICILIA',
     'TOSCANA',
@@ -32,19 +32,37 @@ const regions = [
 
 // Set of properties.
 const properties = [
-    'Spesa_1',
-    'Spesa_2',
-    'Spesa_3',
-    'Spesa_4',
-    'Spesa_5',
-    'Spesa_6',
-    'Spesa_7',
-    'Spesa_8',
-    'Spesa_9',
-    'Spesa_10',
-    'Spesa_11',
-    'Spesa_12',
-    'Spesa_TOT'
+    ['Spesa_1', 'Alimenti e bevande'],
+    ['Spesa_2', 'Alcol e tabacchi'],
+    ['Spesa_3', 'Abbigliamento e calzature'],
+    ['Spesa_4', 'Abitazione, acqua, elettricità, gas'],// e altri combustibili'],
+    ['Spesa_5', 'Mobili, articoli e servizi per la casa'],
+    ['Spesa_6', 'Salute e servizi sanitari'],
+    ['Spesa_7', 'Trasporti'],
+    ['Spesa_8', 'Comunicazioni'],
+    ['Spesa_9', 'Ricreazione, spettacoli, cultura'],
+    ['Spesa_10', 'Istruzione'],
+    ['Spesa_11', 'Servizi ricettivi e ristorazione'],
+    ['Spesa_12', 'Altri beni e servizi'],
+    ['Spesa_TOT', 'Spesa totale']
+];
+
+
+
+const palette = [
+    '#bb5ebd',
+    '#6cb543',
+    '#6c6ad8',
+    '#beac45',
+    '#8b74b8',
+    '#57ae76',
+    '#d24586',
+    '#3dbbb8',
+    '#d04b3e',
+    '#5c98d5',
+    '#c37c40',
+    '#677731',
+    '#c0687b'
 ];
 
 // This function fills the map with colors.
@@ -54,16 +72,19 @@ function fillMap(propertyID, year) {
     var values = [];
     // Read the values from the CSV file.
     d3.csv(filename, function (data) {
-      for (var i = 0; i < regions.length; i++) 
-        values.push(data[propertyID][regions[i]]);
-      const dom = d3.extent(values);
-      const color = d3.scaleLinear().domain(dom).range(['pink', 'red']);
-      // Color the regions according to their value.
-      for (var i = 0; i < regions.length; i++) {
-        d3.select('#reg' + (i + 1))
-          .attr('fill', function(d) {return color(values[i]);})
-          // Store also the current value into the node.
-          .attr('value', values[i]);
-      }
+        // Fill the values array.
+        for (var i = 0; i < regions.length; i++) {
+            values.push(data[propertyID][regions[i]]);
+        }
+        var d = d3.extent(values, function (x) {return +x;});
+        var r = ['white', palette[propertyID]];
+        var color = d3.scaleLinear().domain(d).range(r);
+        // Color the regions according to their value.
+        for (var i = 0; i < values.length; i++) {
+            var c = color(values[i]);
+            d3.select('#reg' + (i + 1))
+                .attr('fill', c)
+                .attr('value', values[i]);
+        }
     });
 }
