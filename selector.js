@@ -6,7 +6,7 @@
 const selector = d3.select('#selector');
 
 // Add the title.
-const selectorTitle = 'Properties'
+const selectorTitle = 'Categorie';
 selector.append('div')
     .attr('class', 'label')
     .attr('id', 'selectorTitle')
@@ -24,7 +24,7 @@ for (var i = 0; i < properties.length; i++) {
             // Get the ID of the current button.
             const id = d3.select(this).attr('value');
             // Get the currently selected year.
-            const year = d3.select('#slider_input').node().value;
+            const year = d3.select('#sliderInput').node().value;
             // Paint the map.
             //console.log('filling map with id=' + id + ' and year=' + year);
             fillMap(id, year);

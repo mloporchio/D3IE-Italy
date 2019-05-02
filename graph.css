@@ -3,12 +3,11 @@
     Author: Matteo Loporchio
 */
 
-.graph_tooltip {
+.graphTooltip {
     font-size: 18;
 }
 
-.myArea {
+.graphShape {
     stroke: black;
     stroke-width: 1px;
 }
-

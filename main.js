@@ -1,14 +1,17 @@
 /*
-    File:   general.js
+    File:   main.js
     Author: Matteo Loporchio
 */
 
 // Minimum and maximum year.
 const yearMin = 1997, yearMax = 2017;
+//
+const defaultGraphPath = 'data/ITALIA.csv'
 
 // Set of regions.
 const regions = [
     'ABRUZZO',
+    'PUGLIA',
     'BASILICATA',
     'CALABRIA',
     'CAMPANIA',
@@ -20,7 +23,6 @@ const regions = [
     'MARCHE',
     'MOLISE',
     'PIEMONTE',
-    'PUGLIA',
     'SARDEGNA',
     'SICILIA',
     'TOSCANA',
@@ -48,7 +50,6 @@ const properties = [
 ];
 
 
-
 const palette = [
     '#bb5ebd',
     '#6cb543',
@@ -65,26 +66,6 @@ const palette = [
     '#c0687b'
 ];
 
-// This function fills the map with colors.
-function fillMap(propertyID, year) {
-    // Build the file name and load the file.
-    var filename = 'data/by_year/'+ year + '.csv';
-    var values = [];
-    // Read the values from the CSV file.
-    d3.csv(filename, function (data) {
-        // Fill the values array.
-        for (var i = 0; i < regions.length; i++) {
-            values.push(data[propertyID][regions[i]]);
-        }
-        var d = d3.extent(values, function (x) {return +x;});
-        var r = ['white', palette[propertyID]];
-        var color = d3.scaleLinear().domain(d).range(r);
-        // Color the regions according to their value.
-        for (var i = 0; i < values.length; i++) {
-            var c = color(values[i]);
-            d3.select('#reg' + (i + 1))
-                .attr('fill', c)
-                .attr('value', values[i]);
-        }
-    });
-}
+
+
+

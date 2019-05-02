@@ -3,21 +3,21 @@
     Author: Matteo Loporchio
 */
 
-#slider_container {
+#sliderContainer {
     width: 60%;
     margin: 0 auto;
 }
 
-#slider_control {
+#sliderControl {
     width: 100%;
 }
 
-#slider_label {
+#sliderLabel {
     width: 100%;
     font-family: 'Open Sans', sans-serif;
 }
 
-#slide_container:after {
+#sliderContainer:after {
     content: "";
     display: table;
     clear: both;
