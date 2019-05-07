@@ -23,7 +23,11 @@ path:hover {
     fill: crimson;
 }
 
-.map_tooltip {
+.mapLegend {
+    width: 100%;
+}
+
+#mapTooltip {
     position: absolute;
     text-align: center;
     vertical-align: middle;

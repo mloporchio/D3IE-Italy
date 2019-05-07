@@ -41,19 +41,12 @@ hr {
     width: 20%;
 }
 
-#left {
+#map {
     width: 30%;
 }
 
-#right {
+#graph {
     width: 50%;
-}
-
-.label {
-    text-align: center;
-    font-size: 18pt;
-    margin-top: 2%;
-    margin-bottom: 2%;
 }
 
 .container {
@@ -69,4 +62,11 @@ hr {
     border-radius: 5px;
     background-color: lightgrey;
     opacity: .6;
+}
+
+.itemTitle {
+    text-align: center;
+    font-size: 18pt;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }

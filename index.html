@@ -13,18 +13,20 @@
 		<script src="https://d3js.org/d3.v4.js"></script>
 		<script src="https://d3js.org/d3-geo.v1.min.js"></script>
 		<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-		<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
 		<!-- Include Google Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 		<!-- Include CSS stylesheets -->
 		<link href="main.css" rel="stylesheet">
-		<link href="map.css" rel="stylesheet">
-		<link href="slider.css" rel="stylesheet">
-		<link href="barchart.css" rel="stylesheet">
+        <link href="map.css" rel="stylesheet">
+        <link href="graph.css" rel="stylesheet">
+        <link href="slider.css" rel="stylesheet">
+        <link href="selector.css" rel="stylesheet">
 	</head>
 	<body>
 		<div id="top">
-			<div id="title">Incomes and expenses in Italy</div>
+			<div id="title">Redditi e consumi in Italia</div>
 			<hr>
 			<!-- Slider area -->
 			<div id="sliderContainer">
@@ -35,9 +37,9 @@
 			</div>
 		</div>
 		<div class="container" id="main">
-			<div class="item" id="selector"></div>
-			<div class="item" id="left"></div>
-			<div class="item" id="right"></div>
+			<div class="item" id="map"></div>
+            <div class="item" id="graph"></div>
+            <div class="item" id="selector"></div>
 		</div>
         <!-- Load the scripts -->
         <script src="main.js"></script>

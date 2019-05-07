@@ -15,6 +15,8 @@ var c = d3.select('#sliderInput')
         const id = d3.select('input[name="property"]:checked').node().value;
         // Color the map.
         fillMap(id, year);
+        // Update the currently selected graph tick.
+        updateTicks(year);
     });
 
 // Initialize the label.

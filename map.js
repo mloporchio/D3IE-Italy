@@ -4,21 +4,23 @@
 */
 
 // Select the div node.
-const left = d3.select('#left');
-
-const jsonPath = 'data/it_geo.json';
-const mapWidth = left.node().getBoundingClientRect().width, mapHeight = 500;
-const defaultMapTitle = 'Italy';
+const map = d3.select('#map');
+const mapWidth = map.node().getBoundingClientRect().width, 
+    mapHeight = 400,
+    legendWidth = mapWidth,
+    legendHeight = 100;
+const defaultMapTitle = 'Italia';
+const nLegendCells = 8;
 var centered = null;
 
 // Set the map title.
-left.append('div')
-    .attr('class', 'label')
+map.append('div')
+    .attr('class', 'itemTitle')
     .attr('id', 'mapTitle')
     .text(defaultMapTitle);
 
 // Create and initialize the SVG area.
-var svg = left.append('svg')
+var svg = map.append('svg')
     .attr('width', mapWidth)
     .attr('height', mapHeight);
 svg.append('rect')
@@ -28,12 +30,22 @@ svg.append('rect')
     .on('click', mapClicked);
 var container = svg.append('g');
 
+// Add the color legend.
+map.append('div')
+    .attr('class', 'mapLegend')
+    .append('svg')
+    .attr('width', legendWidth)
+    .attr('height', legendHeight)
+    .append('g')
+    .attr('class', 'legendLinear')
+    .attr('transform', 'translate(40,30)');
+
 // D3 map projections (used to create the map).
 var projection = d3.geoNaturalEarth1();
 var path = d3.geoPath().projection(projection);
 
 // Load data from file.
-d3.json(jsonPath, function (error, countries) {
+d3.json(defaultJSONPath, function (error, countries) {
     if (error) console.log(error);
     projection.fitExtent([[0, 0], [mapWidth, mapHeight]], countries);
     container.selectAll('path')
@@ -41,15 +53,12 @@ d3.json(jsonPath, function (error, countries) {
         .enter()
         .append('path')
         // Append a region ID and a name to each path.
-        .attr('id', function (d) {
-            console.log('id=' + d.properties.ID_1 + ' name=' + d.properties.NAME_1);
-            return 'reg' + d.properties.ID_1; 
-        })
+        .attr('id', function (d) {return 'reg' + d.properties.ID_1;})
         .attr('name', function (d) {return d.properties.NAME_1;})
         .attr('value', 0)
         .attr('d', path)
+        // Event handlers.
         .on('click', mapClicked)
-        // tooltip-related event handlers
         .on('mouseover', mapMouseOver)
         .on('mousemove', mapMouseMove)
         .on('mouseout', mapMouseOut);
@@ -58,9 +67,11 @@ d3.json(jsonPath, function (error, countries) {
 // Tooltip setup.
 var mapTooltip = d3.select('body')
     .append('div')
-    .attr('class', 'map_tooltip')
+    .attr('id', 'mapTooltip')
     .style('opacity', 0)
     .style('visibility', 'hidden');
+
+/******************************************************************************/
 
 // This function is invoked when the mouse enters a shape.
 function mapMouseOver(d) {
@@ -102,8 +113,6 @@ function mapClicked(d, i) {
         k = 1;
         centered = null;
     }
-    // Set the title.
-    if (centered) d3.select('#mapTitle').text(d.properties.NAME_1);
     // Transform the shapes.
     container.selectAll('path')
         .classed('active', centered && function(d) {return d === centered;});
@@ -112,33 +121,63 @@ function mapClicked(d, i) {
         .attr('transform', 'translate(' + mapWidth / 2 + ','
         + mapHeight / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')')
         .style('stroke-width', 1.5 / k + 'px');
-    // Load the data.
+    // Check the current selection and set graph and titles.
     d3.selectAll('.graphArea').remove();
-    //var id = d.properties.ID_1;
-    //console.log('clicked ' + id +  ' called '+ regions[i]);
-    buildGraph(i);
+    if (centered === d) {
+        // Set the title and build the graph for the current region.
+        d3.select('#mapTitle').text(d.properties.NAME_1);
+        var id = d.properties.ID_1 - 1;
+        // console.log('clicked on region = ' + id + ' called ' + regions[id]);
+        buildGraph(id);
+    }
+    // Build the graph for the whole country.
+    else buildGraph()
 }
 
-// This function fills the map with colors acc
+// This function fills the map with colors according to the current property
+// and the current year.
 function fillMap(propertyID, year) {
     // Build the file name and load the file.
-    var filename = 'data/by_year/'+ year + '.csv';
+    var filename = 'data/by_year/' + year + '.csv';
     var values = [];
     // Read the values from the CSV file.
     d3.csv(filename, function (data) {
-        // Fill the values array.
+        // Fill the array of values.
         for (var i = 0; i < regions.length; i++) {
             values.push(data[propertyID][regions[i]]);
         }
-        var d = d3.extent(values, function (x) {return +x;});
-        var r = ['white', palette[propertyID]];
-        var color = d3.scaleLinear().domain(d).range(r);
-        // Color the regions according to their value.
+        console.log(values);
+        // Color each region according to its value.
+        var propertyColorRange = ['white', palette[propertyID]];
+        var color = d3.scaleLinear()
+            .domain(ranges[propertyID])
+            .range(propertyColorRange);
         for (var i = 0; i < values.length; i++) {
             var c = color(values[i]);
             d3.select('#reg' + (i + 1))
                 .attr('fill', c)
                 .attr('value', values[i]);
         }
+        // Build the color legend.
+        //var x = round(ranges[propertyID][1]);
+        //var z = d3.range(0, x, 10);
+        var legendScale = d3.scaleLinear()
+            .domain([0, ranges[propertyID][1]])
+            .range(propertyColorRange)
+            .nice();
+        var legendLinear = d3.legendColor()
+            .title(properties[propertyID][1] + ' (€)')
+            .shapeWidth(40)
+            .cells(5)
+            .orient('horizontal')
+            .scale(legendScale)
+            .labelFormat(d3.format('.0f'));
+        d3.select(".legendLinear").call(legendLinear);
+        d3.selectAll(".cell text").attr('font-size', '12px');
     });
+}
+
+function round(n) {
+    var b = ((n / 10) * 10) + 10;
+    return b;
 }

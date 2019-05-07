@@ -3,11 +3,8 @@
     Author: Matteo Loporchio
 */
 
-.graphTooltip {
-    font-size: 18;
-}
-
+/* Generic graph shape */
 .graphShape {
-    stroke: black;
-    stroke-width: 1px;
+    position: relative;
+    opacity: .7;
 }
