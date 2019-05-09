@@ -48,33 +48,32 @@ const properties = [
     ['Spesa_10', 'Istruzione'],
     ['Spesa_11', 'Servizi ricettivi e ristorazione'],
     ['Spesa_12', 'Altri beni e servizi'],
-    ['Spesa_TOT', 'Spesa totale']//,
-    //['Reddito', 'Reddito']
+    ['Spesa_TOT', 'Spesa totale'],//,
+    ['Reddito', 'Reddito']
 ];
 
-const defaultPropertyID = properties.length - 1;
+const defaultPropertyID = properties.length - 2;
 
 // Set of ranges. Each property has a range computed across the years.
 const ranges = computeExtent();
 
 // Colors for each property.
 const palette = [
-    '#bb5ebd',
-    '#6cb543',
-    '#6c6ad8',
-    '#beac45',
-    '#8b74b8',
-    '#57ae76',
-    '#d24586',
-    '#3dbbb8',
-    '#d04b3e',
-    '#5c98d5',
-    '#c37c40',
-    '#677731',
-    '#c0687b'//,
-    //'#000000'
-];
-
+    "#9ad3a9",
+    "#1fca00",
+    "#d2c100",
+    "#f5b3d6",
+    '#636363',
+    "#610075",
+    "#f1bc84",
+    "#b5abff",
+    "#ff3d3b",
+    "#6a46f2",
+    "#01417b",
+    "#018b68",
+    "#2470ff",
+    "#ff962c"
+]
 
 // Scans each CSV file and determines min and max value.
 function computeExtent() {

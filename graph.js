@@ -89,42 +89,55 @@ function buildGraph(regionID) {
             .attr('id', function (d, i) {return 'graphShape_' + i;})
             .style('fill', function (d, i) {return palette[i];})
             .attr('d', area)
-            // Handle click event.
-            // Change property when clicking on its shape.
-            .on('click', function (d, i) {
-                // Get the currently checked radio button.
-                var prev = d3.select('input[name="property"]:checked');
-                // Check the i-th button and trigger the change event.
-                var curr = d3.select('input[value="'+ i +'"]');
-                curr.dispatch('change');
-                curr.attr('checked', true);
-                // Uncheck the previously selected button.
-                prev.attr('checked', null);
-            })
-            // Handle mouseover event.
-            .on('mouseover', function (d, i) {
-                // Set the tooltip text.
-                tooltip.text(properties[i][1]);
-                // Highlight the shape.
-                highlightShape(i);
-            })
-            // Handle mousemove event.
-            .on('mousemove', function (d, i) {
-                tooltip.text(properties[i][1]);
-            })
-            // Handle mouseleave event.
-            .on('mouseleave', function (d, i) {
-                // Get the currently selected property.
-                const id = d3.select('input[name="property"]:checked')
-                    .node().value; 
-                // Set the tooltip text.
-                tooltip.text(properties[id][1]);
-                // If the default property is selected highlight all the shapes.
-                if (id == defaultPropertyID) highlightAllShapes();
-                // Otherwise, highlight only the selected one.
-                else highlightShape(id);
-            });
+            .on('click', graphClick)
+            .on('mouseover', graphMouseOver)
+            .on('mousemove', graphMouseMove)
+            .on('mouseleave', graphMouseLeave);
+        // Check if some shape needs to be highlighted.
+        // Get the ID of the currently selected property.
+        const propertyID = d3.select('input[name=property]:checked')
+            .attr('value');
+        if (propertyID == defaultPropertyID) highlightAllShapes();
+        // Otherwise, highlight only the selected one.
+        else highlightShape(propertyID);
     });
+}
+
+// Graph event handler: click event.
+function graphClick(d, i) {
+    // Uncheck the prev
+    var prev = d3.select('input[name=property]:checked');
+    prev.property('checked', false);
+    // Check the new button.
+    var curr = d3.select('input[name=property][value="' + i + '"]');
+    curr.property('checked', true);
+    // Trigger the event.
+    curr.dispatch('click');
+}
+
+function graphMouseOver(d, i) {
+    const tooltip = d3.select('#graphTooltip');
+    // Set the tooltip text.
+    tooltip.text(properties[i][1]);
+    // Highlight the shape.
+    highlightShape(i);
+}
+
+function graphMouseMove(d, i) {
+    const tooltip = d3.select('#graphTooltip');
+    tooltip.text(properties[i][1]);
+}
+
+function graphMouseLeave(d, i) {
+    // Get the currently selected property.
+    const propertyID = d3.select('input[name=property]:checked').attr('value');
+    // Set the tooltip text.
+    const tooltip = d3.select('#graphTooltip');
+    tooltip.text(properties[propertyID][1]);
+    // If the default property is selected highlight all the shapes.
+    if (propertyID == defaultPropertyID) highlightAllShapes();
+    // Otherwise, highlight only the selected one.
+    else highlightShape(propertyID);
 }
 
 // Updates the graph ticks according to the currently selected year.

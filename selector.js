@@ -17,37 +17,36 @@ const form = selector.append('form');
 // For each property...
 for (var i = 0; i < properties.length; i++) {
     // Add a radio button with its description.
-    var input = form
-        .append('input')
+    var input = form.append('input')
         .attr('type', 'radio')
         .attr('name', 'property')
         .attr('value', i)
-        // What happens when we click on the button.
-        .on('change', function () {
-            // Get the ID of the current button.
-            const id = d3.select(this).attr('value');
+        // Define what happens when we click on the button.
+        .on('click', function () {
+            const propertyID = this.value;
             // Get the currently selected year.
             const year = d3.select('#sliderInput').node().value;
             // Set the title of the graph.
-            d3.select('#graphTooltip').text(properties[id][1]);
+            d3.select('#graphTooltip').text(properties[propertyID][1]);
             // Paint the map.
-            fillMap(id, year);
+            fillMap(propertyID, year);
             // Highlight the shapes.
-            if (id == defaultPropertyID) highlightAllShapes();
-            else highlightShape(id);
+            if (propertyID == defaultPropertyID) highlightAllShapes();
+            else highlightShape(propertyID);
         });
+    // Text of the button.
     form.append('div')
         .attr('class', 'coloredBox')
         .style('background', palette[i]);
     form.append('label')
         .attr('for', i)
-        .html(properties[i][1]); // Set the label.
-    // Add also a line break.
+        .html(properties[i][1]);
     form.append('br');
-    // Set the default property.
+    // Set the default selection in the list.
     if (i == defaultPropertyID) {
-        input.attr('checked', true);
+        input.property('checked', true);
         // Set also the title of the graph.
         d3.select('#graphTooltip').text(properties[i][1]);
     }
 }
+

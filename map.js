@@ -10,7 +10,6 @@ const mapWidth = map.node().getBoundingClientRect().width,
     legendWidth = mapWidth,
     legendHeight = 100;
 const defaultMapTitle = 'Italia';
-const nLegendCells = 8;
 var centered = null;
 
 // Set the map title.
@@ -126,12 +125,16 @@ function mapClicked(d, i) {
     if (centered === d) {
         // Set the title and build the graph for the current region.
         d3.select('#mapTitle').text(d.properties.NAME_1);
-        var id = d.properties.ID_1 - 1;
+        var regionID = d.properties.ID_1 - 1;
         // console.log('clicked on region = ' + id + ' called ' + regions[id]);
-        buildGraph(id);
+        buildGraph(regionID);
+        // Check which property is currently selected and highlight its shape.
+        var propertyID = d3.select('input[name="property"]:checked').node().value;
+        if (propertyID == defaultPropertyID) highlightAllShapes();
+        else highlightShape(id);
     }
     // Build the graph for the whole country.
-    else buildGraph()
+    else buildGraph();
 }
 
 // This function fills the map with colors according to the current property
@@ -146,7 +149,6 @@ function fillMap(propertyID, year) {
         for (var i = 0; i < regions.length; i++) {
             values.push(data[propertyID][regions[i]]);
         }
-        console.log(values);
         // Color each region according to its value.
         var propertyColorRange = ['white', palette[propertyID]];
         var color = d3.scaleLinear()
@@ -159,8 +161,6 @@ function fillMap(propertyID, year) {
                 .attr('value', values[i]);
         }
         // Build the color legend.
-        //var x = round(ranges[propertyID][1]);
-        //var z = d3.range(0, x, 10);
         var legendScale = d3.scaleLinear()
             .domain([0, ranges[propertyID][1]])
             .range(propertyColorRange)
@@ -175,9 +175,4 @@ function fillMap(propertyID, year) {
         d3.select(".legendLinear").call(legendLinear);
         d3.selectAll(".cell text").attr('font-size', '12px');
     });
-}
-
-function round(n) {
-    var b = ((n / 10) * 10) + 10;
-    return b;
 }
