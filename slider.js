@@ -8,19 +8,19 @@ var c = d3.select('#sliderInput')
     .attr('min', yearMin)
     .attr('max', yearMax)
     .on('input', function () {
+        const pid = d3.select('.listEntry[selected="true"]').attr('pid');
         const year = this.value;
+        const graph = d3.select('#graphArea');
         // Update the value of the label.
         d3.select('#sliderLabel').html(year);
-        // Get the currently selected property.
-        const id = d3.select('input[name="property"]:checked').node().value;
         // Color the map.
-        fillMap(id, year);
+        fillMap(pid, year);
         // Update the currently selected graph tick.
-        updateTicks(year);
+        updateTicks(graph, year);
     });
 
 // Initialize the label.
 d3.select('#sliderLabel').html(yearMin);
 // Color the map for the first time.
-const id = d3.select('input[name="property"]:checked').node().value;
-fillMap(id, yearMin);
+const pid = d3.select('.listEntry[selected="true"]').attr('pid');
+fillMap(pid, yearMin);

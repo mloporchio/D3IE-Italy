@@ -52,8 +52,8 @@ d3.json(defaultJSONPath, function (error, countries) {
         .enter()
         .append('path')
         // Append a region ID and a name to each path.
-        .attr('id', function (d) {return 'reg' + d.properties.ID_1;})
-        .attr('name', function (d) {return d.properties.NAME_1;})
+        .attr('id', function (d) {return 'region_' + d.properties.ID;})
+        .attr('name', function (d) {return d.properties.NAME;})
         .attr('value', 0)
         .attr('d', path)
         // Event handlers.
@@ -80,7 +80,7 @@ function mapMouseOver(d) {
     const currentValue = d3.select(this).attr('value');
     mapTooltip.html(currentValue + ' €');
     // Show the region name in the title.
-    if (!centered) d3.select('#mapTitle').text(d.properties.NAME_1);
+    if (!centered) d3.select('#mapTitle').text(d.properties.NAME);
     //map_tooltip.html(d.properties.NAME_1);
 }
 
@@ -120,26 +120,23 @@ function mapClicked(d, i) {
         .attr('transform', 'translate(' + mapWidth / 2 + ','
         + mapHeight / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')')
         .style('stroke-width', 1.5 / k + 'px');
-    // Check the current selection and set graph and titles.
-    d3.selectAll('.graphArea').remove();
+    // Remove the previous graph.
+    removeGraph();
+    // Prepare the new graph for this specific region.
+    var rid = null;
+    var pid = d3.select('.listEntry[selected="true"]').attr('pid');
     if (centered === d) {
-        // Set the title and build the graph for the current region.
-        d3.select('#mapTitle').text(d.properties.NAME_1);
-        var regionID = d.properties.ID_1 - 1;
-        // console.log('clicked on region = ' + id + ' called ' + regions[id]);
-        buildGraph(regionID);
-        // Check which property is currently selected and highlight its shape.
-        var propertyID = d3.select('input[name="property"]:checked').node().value;
-        if (propertyID == defaultPropertyID) highlightAllShapes();
-        else highlightShape(id);
+        // Set the title of the map.
+        d3.select('#mapTitle').text(d.properties.NAME);
+        rid = d.properties.ID;
     }
-    // Build the graph for the whole country.
-    else buildGraph();
+    // Build the new graph.
+    buildGraph(rid, pid, stackable, base);
 }
 
 // This function fills the map with colors according to the current property
 // and the current year.
-function fillMap(propertyID, year) {
+function fillMap(pid, year) {
     // Build the file name and load the file.
     var filename = 'data/by_year/' + year + '.csv';
     var values = [];
@@ -147,26 +144,26 @@ function fillMap(propertyID, year) {
     d3.csv(filename, function (data) {
         // Fill the array of values.
         for (var i = 0; i < regions.length; i++) {
-            values.push(data[propertyID][regions[i]]);
+            values.push(data[pid][regions[i]]);
         }
         // Color each region according to its value.
-        var propertyColorRange = ['white', palette[propertyID]];
+        var propertyColorRange = ['white', palette[pid]];
         var color = d3.scaleLinear()
-            .domain(ranges[propertyID])
+            .domain(ranges[pid])
             .range(propertyColorRange);
         for (var i = 0; i < values.length; i++) {
             var c = color(values[i]);
-            d3.select('#reg' + (i + 1))
+            d3.select('#region_' + i)
                 .attr('fill', c)
                 .attr('value', values[i]);
         }
         // Build the color legend.
         var legendScale = d3.scaleLinear()
-            .domain([0, ranges[propertyID][1]])
+            .domain([0, ranges[pid][1]])
             .range(propertyColorRange)
             .nice();
         var legendLinear = d3.legendColor()
-            .title(properties[propertyID][1] + ' (€)')
+            .title(descriptions[pid] + ' (€)')
             .shapeWidth(40)
             .cells(5)
             .orient('horizontal')

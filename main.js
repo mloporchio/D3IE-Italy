@@ -8,12 +8,11 @@ const yearMin = 1997, yearMax = 2017;
 // Default path for the graph CSV file.
 const defaultGraphPath = 'data/ITALIA.csv';
 // Default path for the GeoJSON file.
-const defaultJSONPath = 'data/it_geo.json';
+const defaultJSONPath = 'data/ITALIA.json';
 
 // Set of regions.
 const regions = [
     'ABRUZZO',
-    'PUGLIA',
     'BASILICATA',
     'CALABRIA',
     'CAMPANIA',
@@ -25,6 +24,7 @@ const regions = [
     'MARCHE',
     'MOLISE',
     'PIEMONTE',
+    'PUGLIA',
     'SARDEGNA',
     'SICILIA',
     'TOSCANA',
@@ -36,44 +36,76 @@ const regions = [
 
 // Set of properties.
 const properties = [
-    ['Spesa_1', 'Alimenti e bevande'],
-    ['Spesa_2', 'Alcol e tabacchi'],
-    ['Spesa_3', 'Abbigliamento e calzature'],
-    ['Spesa_4', 'Abitazione, acqua, elettricità, gas'],
-    ['Spesa_5', 'Mobili, articoli e servizi per la casa'],
-    ['Spesa_6', 'Salute e servizi sanitari'],
-    ['Spesa_7', 'Trasporti'],
-    ['Spesa_8', 'Comunicazioni'],
-    ['Spesa_9', 'Ricreazione, spettacoli, cultura'],
-    ['Spesa_10', 'Istruzione'],
-    ['Spesa_11', 'Servizi ricettivi e ristorazione'],
-    ['Spesa_12', 'Altri beni e servizi'],
-    ['Spesa_TOT', 'Spesa totale'],//,
-    ['Reddito', 'Reddito']
+    'Spesa_1',
+    'Spesa_2',
+    'Spesa_3',
+    'Spesa_4',
+    'Spesa_5',
+    'Spesa_6',
+    'Spesa_7',
+    'Spesa_8',
+    'Spesa_9',
+    'Spesa_10',
+    'Spesa_11',
+    'Spesa_12',
+    'Spesa_TOT',
+    'Reddito'
 ];
 
-const defaultPropertyID = properties.length - 2;
+// Set of property descriptions.
+const descriptions = [
+    'Alimenti e bevande',
+    'Alcol e tabacchi',
+    'Abbigliamento e calzature',
+    'Abitazione, acqua, elettricità, gas',
+    'Mobili, articoli e servizi per la casa',
+    'Salute e servizi sanitari',
+    'Trasporti',
+    'Comunicazioni',
+    'Ricreazione, spettacoli, cultura',
+    'Istruzione',
+    'Servizi ricettivi e ristorazione',
+    'Altri beni e servizi',
+    'Spesa totale',
+    'Reddito'
+];
+
+const stackable = properties.slice(0, properties.length - 2);
+const incomes = properties.length - 1;
+const expenses = properties.length - 2;
+
+// Colors for each property.
+const palette = [
+    "#335092",
+    "#ff7c8d",
+    "#2c70fa",
+    "#bbd119",
+    "#b971fc",
+    "#6ee048",
+    "#ff3fa7",
+    "#106e38",
+    "#bf180a",
+    "#45aeff",
+    "#877f74",
+    "#91275c",
+    "#ff006f",
+    "#ffc012"
+];
 
 // Set of ranges. Each property has a range computed across the years.
 const ranges = computeExtent();
 
-// Colors for each property.
-const palette = [
-    "#9ad3a9",
-    "#1fca00",
-    "#d2c100",
-    "#f5b3d6",
-    '#636363',
-    "#610075",
-    "#f1bc84",
-    "#b5abff",
-    "#ff3d3b",
-    "#6a46f2",
-    "#01417b",
-    "#018b68",
-    "#2470ff",
-    "#ff962c"
-]
+/******************************************************************************/
+
+// This function returns the path of the CSV file for the region with the
+// specified ID. If the ID is null, the default file path is returned.
+function getRegionFilename(rid) {
+    var filename = defaultGraphPath;
+    if (rid != null) {
+        filename = 'data/by_region/'+ regions[rid] + '.csv';
+    }
+    return filename;
+}
 
 // Scans each CSV file and determines min and max value.
 function computeExtent() {
