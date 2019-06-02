@@ -14,11 +14,16 @@
 		<script src="https://d3js.org/d3-geo.v1.min.js"></script>
 		<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="https://d3js.org/d3-queue.v3.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
 		<!-- Include Google Fonts -->
-		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Overpass+Mono&display=swap" rel="stylesheet"> 
+        <!-- Add icon library -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 		<!-- Include CSS stylesheets -->
-		<link href="main.css" rel="stylesheet">
+        <link href="main.css" rel="stylesheet">
+        <link href="button.css" rel="stylesheet">
         <link href="map.css" rel="stylesheet">
         <link href="graph.css" rel="stylesheet">
         <link href="slider.css" rel="stylesheet">
@@ -26,27 +31,60 @@
 	</head>
 	<body>
 		<div id="top">
-            <div id="title">Redditi e consumi in Italia</div>
-            <!--<img src="pictures/info.svg" alt="about" width="25px" height="25px" style="float:right;"/>-->
-            <hr>
-			<!-- Slider area -->
-			<div id="sliderContainer">
-				<div id="sliderLabel"></div>
-				<div id="sliderControl">
-					<input type="range" class="slider" id="sliderInput">
-				</div>
-			</div>
+            <div id="title">Redditi e consumi in Italia &mdash; <em>beta</em></div>
+            <div id="buttons">
+                <button class="button" id="infoButton">
+                    <i class="fa fa-info-circle"></i>
+                </button>
+            </div>
 		</div>
 		<div class="container" id="main">
 			<div class="item" id="map"></div>
             <div class="item" id="graph"></div>
             <div class="item" id="selector"></div>
-		</div>
+        </div>
+        <!-- Modal window -->
+        <div class="modal" id="infoModal">
+            <div class="modalContent">
+                <span id="closeButton" class="close">
+                    <i class="fa fa-times-circle"></i>
+                </span>
+                <img src="pictures/matte.jpg" width="20%" hspace="20" vspace="10" style="float: left;">
+                <h1>Informazioni</h1>
+                <hr>
+                <p>
+                Questo progetto è stato realizzato da <a href="http://lopont.altervista.org">Matteo Loporchio</a>, 
+                studente di Informatica dell'Università di Pisa, 
+                nell'ambito del corso del corso di <a href="http://vcg.isti.cnr.it/~cignoni/SciViz1819/index.html">
+                <strong>Scientific and large data visualization</strong></a>, 
+                sotto la supervisione dei docenti <a href="http://vcg.isti.cnr.it/~cignoni/">Paolo Cignoni</a> e 
+                <a href="http://vcg.isti.cnr.it/~giorgi/">Daniela Giorgi</a> dell'ISTI-CNR di Pisa.
+                </p>
+                <p>
+                I dati sui redditi sono stati elaborati a partire dall'
+                <a href="https://www.bancaditalia.it/pubblicazioni/indagine-famiglie/index.html">
+                <strong>Indagine sui bilanci delle famiglie italiane</strong></a>
+                condotta dalla Banca d'Italia. Le informazioni sui consumi provengono invece dall'
+                <a href="http://siqual.istat.it/SIQual/visualizza.do?id=8889007&refresh=true&language=IT">
+                <strong>Indagine sulle spese delle famiglie</strong>
+                </a> effettuata dall'Istat a partire dal 2014. Per gli anni precedenti, sono stati utilizzati
+                i dati dell'analoga 
+                <a href="http://siqual.istat.it/SIQual/visualizza.do?id=0021002">
+                <strong>Indagine sui consumi delle famiglie</strong></a> ad opera dello stesso Istat.
+                </p>
+                <hr>
+                <p>
+                Per qualsiasi dubbio o segnalazione, non esitare a contattarmi all'indirizzo email: <code>  m dot loporchio 
+                at studenti dot unipi dot it</code>.
+                </p>
+            </div>
+        </div>
         <!-- Load the scripts -->
         <script src="main.js"></script>
-        <script src="graph.js"></script>
+        <script src="button.js"></script>
         <script src="map.js"></script>
-        <script src="selector.js"></script>
+        <script src="graph.js"></script>
         <script src="slider.js"></script>
+        <script src="selector.js"></script>
 	</body>
 </html>

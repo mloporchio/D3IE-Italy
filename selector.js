@@ -12,31 +12,41 @@ selector.append('div')
     .attr('id', 'selectorTitle')
     .text(selectorTitle);
 
+selector.append('div')
+    .style('text-align', 'center')
+    .style('color', '#666666')
+    .html('Per ciascuna voce sono mostrati i valori medi mensili.');
+
 var list = selector.append('div')
     .attr('class', 'selectorArea')
     .attr('id', 'propertyList');
 
-for (var i = 0; i < properties.length; i++) {
+// Add properties from top to bottom.
+for (var i = properties.length - 1; i >= 0; i--) {
     var entry = list.append('div')
         .attr('class', 'listEntry')
         .attr('id', 'entry_' + i)
         .attr('pid', i) // property id of this entry
-        .attr('selected', (i == expenses))
+        .attr('selected', (i == expenses)) // Expenses are selected by default
         .on('click', function () {
             const current = d3.select(this);
             const previous = d3.select('.listEntry[selected="true"]');
-            const graph = d3.select('#graphArea');
             const year = d3.select('#sliderInput').node().value;
             const pid = current.attr('pid');
             // Deselect the previous entry and select this one.
             previous.attr('selected', false);
             current.attr('selected', true);
-            // Set the title of the graph.
-            graph.select('#graphTooltip').text(descriptions[pid]);
             // Paint the map.
-            fillMap(pid, year);
-            // Highlight the shapes.
-            selectShape(graph, pid);
+            map.fill(pid, year);
+            // Set the title of the graph.
+            graph.setTitle(descriptions[pid]);
+            // Check what we have to do with the graph.
+            if (graph.focused) {
+                // If in focused mode build the graph for that property.
+                var rid = map.getRegion();
+                graph.focus(rid, pid, year);
+            }
+            else graph.setCurrentProperty(pid);
         });
     entry.append('label')
         .attr('class', 'listEntryLabel')
@@ -48,44 +58,7 @@ for (var i = 0; i < properties.length; i++) {
         .style('background', palette[i]);
 }
 
-/******************************************************************************/
-/*
-// Add the selection form.
-const form = selector.append('form');
-// For each property...
-for (var i = 0; i < properties.length; i++) {
-    // Add a radio button with its description.
-    var input = form.append('input')
-        .attr('type', 'radio')
-        .attr('name', 'property')
-        .attr('value', i)
-        // Define what happens when we click on the button.
-        .on('click', function () {
-            const propertyID = this.value;
-            const year = d3.select('#sliderInput').node().value;
-            // Set the title of the graph.
-            d3.select('#graphTooltip').text(descriptions[propertyID]);
-            // Paint the map.
-            fillMap(propertyID, year);
-            // Highlight the shapes.
-            highlight(propertyID);
-            // Draw the income line if necessary.
-            setIncome((propertyID == incomes || propertyID == expenses));
-        });
-    // Text of the button.
-    form.append('label')
-        .attr('for', i)
-        .html(descriptions[i]);
-    form.append('div')
-        .attr('class', 'coloredBox')
-        .style('background', palette[i]);
-    form.append('br');
-    // The total expenses property is the default one.
-    if (i == expenses) {
-        input.property('checked', true);
-        // Set also the title of the graph.
-        d3.select('#graphTooltip').text(descriptions[i]);
-    }
-}
-*/
-
+// Color the map for the first time.
+const pid = d3.select('.listEntry[selected="true"]').attr('pid');
+const year = d3.select('#sliderInput').node().value;
+map.fill(pid, year);

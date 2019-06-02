@@ -19,11 +19,41 @@ path {
     stroke-width: .5px;
 }
 
+/*
+.mapMacro:hover {
+    fill: crimson;
+}*/
+
+/*
 path:hover {
     fill: crimson;
+}*/
+
+#mapSelector {
+    margin-left: 30px;
+    margin-bottom: 50px;
+    text-align: center;
 }
 
-.mapLegend {
+.mapSelectorEntry {
+    width: 45%;
+    border: 2px solid lightgray;
+    border-radius: 4px;
+}
+
+.mapSelectorEntry:hover {
+    border: 2px solid crimson;
+}
+
+.mapSelectorEntry[selected="true"] {
+    border: 2px solid crimson;
+    background: crimson;
+    color: white;
+    opacity: .7;
+}
+
+#mapLegend {
+    font-size: 10pt;
     width: 100%;
 }
 

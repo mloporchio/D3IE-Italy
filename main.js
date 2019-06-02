@@ -4,11 +4,19 @@
 */
 
 // Minimum and maximum year.
-const yearMin = 1997, yearMax = 2017;
+var yearMin = 1997, yearMax = 2017;
+// Range of years.
+var years = (new Array(yearMax - yearMin + 1))
+    .fill(undefined).map((_, i) => i + yearMin);
+// Default title for the map.
+var defaultMapName = 'Italia';
 // Default path for the graph CSV file.
-const defaultGraphPath = 'data/ITALIA.csv';
+var defaultGraphPath = 'data/ITALIA.csv';
 // Default path for the GeoJSON file.
-const defaultJSONPath = 'data/ITALIA.json';
+var defaultJSONPath = 'data/ITALIA.json';
+// Here we will store references to the map and graph.
+var map = null;
+var graph = null;
 
 // Set of regions.
 const regions = [
@@ -33,6 +41,15 @@ const regions = [
     'VALLE_AOSTA',
     'VENETO'
 ];
+
+// Set of macroregions and their region IDs.
+const macro = {
+    'Centro' : [6, 9, 15, 17],
+    'Isole' : [13, 14],
+    'Nord-Est' : [4, 5, 16, 19],
+    'Nord-Ovest' : [7, 8, 11, 18],
+    'Sud' : [0, 1, 2, 3, 10, 12],  
+};
 
 // Set of properties.
 const properties = [
@@ -92,26 +109,25 @@ const palette = [
     "#ffc012"
 ];
 
-// Set of ranges. Each property has a range computed across the years.
-const ranges = computeExtent();
-
-/******************************************************************************/
-
 // This function returns the path of the CSV file for the region with the
 // specified ID. If the ID is null, the default file path is returned.
-function getRegionFilename(rid) {
+function getRegionFilename(id, mode) {
     var filename = defaultGraphPath;
-    if (rid != null) {
-        filename = 'data/by_region/'+ regions[rid] + '.csv';
+    if (id != null) {
+        var prefix = ((mode) ? 'by_region_macro/' : 'by_region/');
+        var keys = Object.keys(macro);
+        var name = ((mode) ? keys[id] : regions[id]);
+        filename = 'data/' + prefix + name + '.csv';
     }
     return filename;
 }
 
+
 // Scans each CSV file and determines min and max value.
 function computeExtent() {
-    var ranges = [];
+    var result = [];
     for (var i = 0; i < properties.length; i++) {
-        ranges.push([Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]);
+        result.push([Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]);
     }
     // For each year...
     for (var year = yearMin; year <= yearMax; year++) {
@@ -123,10 +139,74 @@ function computeExtent() {
                     values.push(+(data[i][regions[j]]));
                 }
                 var ext = d3.extent(values);
-                if (ext[0] <= ranges[i][0]) ranges[i][0] = ext[0];
-                if (ext[1] >= ranges[i][1]) ranges[i][1] = ext[1];
+                if (ext[0] <= result[i][0]) result[i][0] = ext[0];
+                if (ext[1] >= result[i][1]) result[i][1] = ext[1];
             }
         });
     }
-    return ranges;
+    return result;
 }
+
+// This function returns the next multiple of ten starting from n.
+function nextMultipleOfTen(n) {
+    if (n % 10 != 0) n = n + (10 - n % 10);
+    return n;
+}
+
+// This function generates a range of n colors from 'white' to 'color'.
+function generateColorRange(n, color) {
+    var clr = d3.scaleLinear()
+        .range(['white', color])
+        .domain([0, n-1]);
+    var result = d3.range(n).map(function(d) {
+        return clr(d)
+    });
+    return result;
+}
+
+// Returns the ID of the macroregion this region is included in.
+function getMacroID(rid) {
+    var keys = Object.keys(macro);
+    for (var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        if (macro[k].includes(rid)) return i;
+    }
+    return null;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+// This small but very helpful function has been initially written by Brendan Sudol 
+// https://brendansudol.com/writing/responsive-d3
+
+function responsivefy(svg) {
+    // get container + svg aspect ratio
+    var container = d3.select(svg.node().parentNode),
+        width = parseInt(svg.style("width")),
+        height = parseInt(svg.style("height")),
+        aspect = width / height;
+  
+    // add viewBox and preserveAspectRatio properties,
+    // and call resize so that svg resizes on inital page load
+    svg.attr("viewBox", "0 0 " + width + " " + height)
+        .attr("preserveAspectRatio", "xMinYMid")
+        .call(resize);
+  
+    // to register multiple listeners for same event type,
+    // you need to add namespace, i.e., 'click.foo'
+    // necessary if you call invoke this function for multiple svgs
+    // api docs: https://github.com/mbostock/d3/wiki/Selections#on
+    d3.select(window).on("resize." + container.attr("id"), resize);
+  
+    // get width of container and resize svg to fit it
+    function resize() {
+        var targetWidth = parseInt(container.style("width"));
+        svg.attr("width", targetWidth);
+        svg.attr("height", Math.round(targetWidth / aspect));
+    }
+  }
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Initialize the ranges for all the properties.
+var ranges = computeExtent();

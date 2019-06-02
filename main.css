@@ -1,44 +1,53 @@
 /*
     File:   main.css
     Author: Matteo Loporchio
-
-    This is the main CSS stylesheet of the project.
 */
 
-/* Whole document */
 body {
     background-color: #888888;
     background-image: url("pictures/kinda-jean.png");
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+h1 {
+    font-size: 20pt;
+}
+
 hr {
-    height: 12px;
     border: 0;
-    box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+    border-bottom: 1px dashed #ccc;
+    background: #666666;
+}
+
+code {
+    font-family: 'Overpass Mono', monospace;
+    font-size: 11pt;
 }
 
 #top {
     position: relative;
     width: 100%;
-    height: 15vh;
+    height: 7vh;
     margin: 0 auto;
     border-radius: 5px;
     background: #3d3c3c;
     opacity: .9;
     color: white;
-    text-align: center;
+    text-align: left;
 }
 
 #title {
+    float: left;
     position: relative;
-    top: 5px;
+    top: 10px;
+    left: 10px;
     bottom: 10px;
     font-size: 16pt;
 }
 
-#selector {
-    width: 25%;
+#buttons {
+    float: right;
+    padding: 5px 5px 0px 10px;
 }
 
 #map {
@@ -46,7 +55,11 @@ hr {
 }
 
 #graph {
-    width: 45%;
+    width: 40%;
+}
+
+#selector {
+    width: 30%;
 }
 
 .container {
@@ -62,6 +75,7 @@ hr {
     border-radius: 5px;
     background-color: lightgrey;
     opacity: .6;
+    
 }
 
 .itemTitle {
