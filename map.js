@@ -55,8 +55,16 @@ class Map {
             .append('g')
             .attr('id', 'legendGroup')
             .attr('transform', 'translate(30,30)');
-        // Build the map by reading the JSON data.
-        this.readJSON();
+        // Read the JSON data from file.
+        var q = d3.queue();
+        q.defer(d3.json, defaultJSONPath);
+        q.await((function (error, result) {
+            console.log('JSON data loaded!');
+            // Build the map by processing the JSON file.
+            this.build(result);
+            // Fill the map using default pid and year.
+            this.fill(expenses, yearMin);
+        }).bind(this));
     }
 
     // This function initializes the map mode selector used to switch
@@ -96,40 +104,35 @@ class Map {
     }
 
     // This function parses the JSON file and loads data into the map.
-    readJSON() {
+    build(countries) {
         var m = this;
-        // Read data from the JSON file.
-        d3.json(defaultJSONPath, function (error, countries) {
-            if (error) console.log(error);
-            m.projection.fitExtent([[0, 0], [mapWidth, mapHeight]], countries);
-            //console.log(countries.features);
-            var keys = Object.keys(macro);
-            var values = Object.values(macro);
-            var root = m.regions;
-            // We create a <g> element for each macroregion...
-            for (var i = 0; i < keys.length; i++) {
-                var regions = values[i];
-                var group = root.append('g')
-                    .attr('id', 'macro_' + i)
-                    .attr('class', 'mapMacro');
-                var selected = regions.map(i => countries.features[i]);
-                // We append all the regions to the proper <g> element.
-                group.selectAll('path')
-                    .data(selected)
-                    .enter()
-                    .append('path')
-                    .attr('class', 'mapRegion')
-                    .attr('id', function (d) {return 'region_' + d.properties.ID;})
-                    .attr('name', function (d) {return d.properties.NAME;})
-                    .attr('macro', i)
-                    .attr('value', 0)
-                    .attr('d', m.path)
-                    .on('click', m.click.bind(m))
-                    .on('mouseover', m.mouseOver.bind(m))
-                    .on('mousemove', m.mouseMove.bind(m))
-                    .on('mouseout', m.mouseOut.bind(m));
-            }
-        });
+        m.projection.fitExtent([[0, 0], [mapWidth, mapHeight]], countries);
+        var keys = Object.keys(macro);
+        var values = Object.values(macro);
+        var root = m.regions;
+        // We create a <g> element for each macroregion...
+        for (var i = 0; i < keys.length; i++) {
+            var regions = values[i];
+            var group = root.append('g')
+                .attr('id', 'macro_' + i)
+                .attr('class', 'mapMacro');
+            var selected = regions.map(i => countries.features[i]);
+            // We append all the regions to the proper <g> element.
+            group.selectAll('path')
+                .data(selected)
+                .enter()
+                .append('path')
+                .attr('class', 'mapRegion')
+                .attr('id', function (d) {return 'region_' + d.properties.ID;})
+                .attr('name', function (d) {return d.properties.NAME;})
+                .attr('macro', i)
+                .attr('value', 0)
+                .attr('d', m.path)
+                .on('click', m.click.bind(m))
+                .on('mouseover', m.mouseOver.bind(m))
+                .on('mousemove', m.mouseMove.bind(m))
+                .on('mouseout', m.mouseOut.bind(m));
+        }
     }
 
     // Returns the ID of the currently selected (macro)region. If no region
@@ -167,7 +170,6 @@ class Map {
     // This function fills the map with colors according to the current property
     // and the current year.
     fill(pid, year) {
-        //console.log('fill called with pid = ' + pid + ', year = ' + year);
         var m = this;
         var prefix = ((this.macroMode) ? 'by_year_macro/' : 'by_year/');
         var filename = 'data/' + prefix + year + '.csv';
@@ -358,5 +360,3 @@ class Map {
 
 // Create the map for the first time.
 map = new Map(mapContainer);
-// Fill it using default pid and year.
-map.fill(expenses, yearMin);
