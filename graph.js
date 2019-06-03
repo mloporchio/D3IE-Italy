@@ -41,6 +41,7 @@ class Graph {
             .attr('height', graphFullHeight)
             .call(responsivefy) // Make the whole area responsive.
             .append('g')
+            .attr('id', 'graphPlane')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
             .call(responsivefy);
         // Initialize the tooltip.
