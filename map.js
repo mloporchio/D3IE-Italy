@@ -167,7 +167,7 @@ class Map {
     // This function fills the map with colors according to the current property
     // and the current year.
     fill(pid, year) {
-        console.log('fill called with pid = ' + pid + ', year = ' + year);
+        //console.log('fill called with pid = ' + pid + ', year = ' + year);
         var m = this;
         var prefix = ((this.macroMode) ? 'by_year_macro/' : 'by_year/');
         var filename = 'data/' + prefix + year + '.csv';
@@ -358,3 +358,5 @@ class Map {
 
 // Create the map for the first time.
 map = new Map(mapContainer);
+// Fill it using default pid and year.
+map.fill(expenses, yearMin);

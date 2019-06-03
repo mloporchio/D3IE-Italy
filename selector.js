@@ -59,6 +59,6 @@ for (var i = properties.length - 1; i >= 0; i--) {
 }
 
 // Color the map for the first time.
-const pid = d3.select('.listEntry[selected="true"]').attr('pid');
-const year = d3.select('#sliderInput').node().value;
-map.fill(pid, year);
+//const pid = d3.select('.listEntry[selected="true"]').attr('pid');
+//const year = d3.select('#sliderInput').node().value;
+//map.fill(pid, year);
