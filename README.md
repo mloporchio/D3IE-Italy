@@ -16,6 +16,7 @@ A brief guide on how to use this tool is also available here: https://mloporchio
 <hr>
 
 If you found a bug, or if you have any kind of question about the project, please let me know at: 
-<code>m dot loporchio at studenti dot unipi dot it</code>.
+
+  <code>m dot loporchio at studenti dot unipi dot it</code>.
 
 
