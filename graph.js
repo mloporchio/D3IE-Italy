@@ -302,7 +302,7 @@ class Graph {
     setCurrentTick(year) {
         this.area.select('#currentTick').remove(); // remove old red tick
         var current = this.area.select('#graphLine_' + year);
-        var ctm = current.node().getTransformToElement(this.area.node());//.getCTM();
+        var ctm = getTransformationMatrix(current.node(), this.area.node());
         var bbox = current.node().getBBox()
         this.area.append('line')
             .attr('id', 'currentTick')

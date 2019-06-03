@@ -31,8 +31,13 @@
 	</head>
 	<body>
 		<div id="top">
-            <div id="title">Redditi e consumi in Italia &mdash; <em>beta</em></div>
+            <div id="title">Redditi e consumi in Italia</div>
             <div id="buttons">
+                <a href="https://github.com/mloporchio/D3IE-Italy" target="_blank">
+                <button class="button" id="gitButton">
+                    <i class="fa fa-github"></i>
+                </button>
+                </a>
                 <button class="button" id="infoButton">
                     <i class="fa fa-info-circle"></i>
                 </button>
@@ -42,6 +47,9 @@
 			<div class="item" id="map"></div>
             <div class="item" id="graph"></div>
             <div class="item" id="selector"></div>
+        </div>
+        <div id="bottom">
+            Fonte dati: Banca d'Italia (redditi) e Istat (spese).
         </div>
         <!-- Modal window -->
         <div class="modal" id="infoModal">
@@ -78,7 +86,7 @@
                 <div style="clear: left;">
                 <hr>
                 <p>
-                Per qualsiasi dubbio o segnalazione, non esitare a contattarmi all'indirizzo email: <code>  m dot loporchio 
+                Per qualsiasi dubbio o segnalazione, non esitare a contattarmi all'indirizzo email: <code>m dot loporchio 
                 at studenti dot unipi dot it</code>.
                 </p>
             </div>

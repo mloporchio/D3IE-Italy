@@ -208,5 +208,14 @@ function responsivefy(svg) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// Custom implementation of getTransformToElement() to overcome issues
+// with Chromium-like browsers.
+// Many thanks to: https://www.jointjs.com/blog/announcement-gettransformtoelement-polyfill
+function getTransformationMatrix(from, to) {
+    return to.getScreenCTM().inverse().multiply(from.getScreenCTM());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 // Initialize the ranges for all the properties.
 var ranges = computeExtent();

@@ -84,3 +84,19 @@ code {
     margin-top: 2%;
     margin-bottom: 2%;
 }
+
+#bottom {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    font-size: 10pt;
+    background: #666666;
+    opacity: .9;
+    color: white;
+    text-align: left;
+}
