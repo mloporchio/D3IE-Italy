@@ -4,7 +4,8 @@
 */
 
 #sliderContainer {
-    width: 80%;
+    width: 85%;
+    padding-right: 5px;
     margin: 0 auto;
 }
 
