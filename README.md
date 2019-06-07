@@ -1,21 +1,8 @@
 # D3IE-Italy
 
-A graphical tool based on D3.js to visualize incomes and expenses of italian families over time. 
-This tool has been developed using HTML, CSS and JavaScript. 
-Data have been analyzed and prepared using Python, with the help of Pandas and NumPy libraries.
-
-This project was developed during the course of Scientific and large data visualization, 
-which is part of the master degree in Computer Science at University of Pisa.
-
-The whole work was done under the supervision of professors Paolo Cignoni and Daniela Giorgi, from ISTI-CNR in Pisa. 
-
-<hr>
-
 You can test D3IE-Italy here: https://mloporchio.github.io/D3IE-Italy.
 
 A brief guide on how to use this tool is also available here (in Italian): https://mloporchio.github.io/D3IE-Italy/guide
-
-<hr>
 
 If you found a bug, or if you have any kind of question about the project, please let me know at: 
 <code>
@@ -24,16 +11,16 @@ If you found a bug, or if you have any kind of question about the project, pleas
 
 ---
 
-# 🇮🇹 D3IE-Italy 
-## A brief how-to guide
-
 ### Introduction
 
-D3IE-Italy has been developed by Matteo Loporchio, a Computer Science student at University of Pisa. This project was born during the course of Scientific and Large Data visualization, under the supervision of professors Paolo Cignoni and Daniela Giorgi, from ISTI-CNR in Pisa.
+D3IE-Italy is a graphical tool based on D3.js that helps visualizing the evolution of 
+incomes and expenses of italian families over time, from 1997 to 2017. 
+This tool has been developed using HTML, CSS and JavaScript. 
+Data have been analyzed and prepared using Python, with the help of Pandas and NumPy libraries.
 
-D3IE-Italy is an interactive map whose aim is to show how incomes and expenses
-of italian families have evolved from 1997 to 2017. Every value you see has been computed as a monthly average for each family.
+The project has been developed by Matteo Loporchio, a Computer Science student at University of Pisa. This project was born during the course of Scientific and Large Data visualization, under the supervision of professors Paolo Cignoni and Daniela Giorgi, from ISTI-CNR in Pisa.
 
+Every value you see in D3IE-Italy has been computed as a monthly average for each family.
 Data concerning incomes have been processed starting from the <strong>Indagine sui bilanci delle famiglie italiane</strong>, Banca d'Italia. 
 On the other hand, information about expenses has been extracted from the <strong>Indagine sulle spese delle famiglie</strong>, conducted by Istat since 2014. For years preceding 2014, data have been collected from the analogous <strong>Indagine sui consumi delle famiglie</strong>, also conducted by Istat.
 
@@ -52,7 +39,7 @@ We will now briefly present how they work.
 
 ### Category selection
 
-<img style="float: left;" src="select.png" width="40%" hspace="10" vspace="10">
+<img style="float: left;" src="guide/select.png" width="40%" hspace="10" vspace="10">
 
 The rightmost frame allows the user to select the expense category to be shown.
 To ease the distinction, each category has a color. When changing category, the map and the graph will be modified accordingly, in order to display the evolution in space and time, respectively.
@@ -63,7 +50,7 @@ To ease the distinction, each category has a color. When changing category, the 
 
 ### Map
 
-<img style="float: left;" src="map.png" width="40%" hspace="10" vspace="10">
+<img style="float: left;" src="guide/map.png" width="40%" hspace="10" vspace="10">
 
 The leftmost frame contains a map of Italy which is colored according to the currently selected category and the current year. The legend below the map gives an idea of the range of values. 
 By hovering the mouse over a single region it is possible to see the amount of Euros for the currently selected category. By clicking over the region, the focus will shift on regional data and the graph will be modified accordingly.
@@ -76,7 +63,7 @@ Changing the view mode is also possible: you may switch from single region visua
 
 ### Graph
 
-<img style="float: left;" src="./graph1.png" width="40%" hspace="10" vspace="10">
+<img style="float: left;" src="guide/graph1.png" width="40%" hspace="10" vspace="10">
 
 The main goal of the graph is to show the variation of expenses and income across the years. Expense categories are identified by their color and
 are represented as stacked bands, just like in a classical stacked area graph.
@@ -90,7 +77,7 @@ the yellow line highlights the evolution of income as it would do in a classical
 
 <div style="clear: left;">
 
-<img style="float: right;" src="./graph2.png" width="40%" hspace="10" vspace="10">
+<img style="float: right;" src="guide/graph2.png" width="40%" hspace="10" vspace="10">
 
 By hovering the mouse over it, a band is highlighted to ease the visualization. If a user clicks over it, the graph will be transformed and the evolution of
 that category will be displayed in detail, as shown in the figure on the right.
